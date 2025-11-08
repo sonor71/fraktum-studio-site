@@ -356,7 +356,10 @@ header{
 
     <div class="spacer"></div>
 
-    <button class="launcher-btn">скачать лаунчер</button>
+    <a id="launcher-btn" class="launcher-btn" href="assets/launcher/FraktumLauncher.exe" download>
+  скачать лаунчер
+</a>
+
 
     <div class="auth-inline">
       <div class="auth-ball" title="войти / зарегистрироваться"></div>
@@ -459,16 +462,55 @@ Fraktum Studio — это не просто команда.
   </div>
 
   <script>
-    // смена фона
-    const slides = document.querySelectorAll('.bg-slide');
-    let current = 0;
-    const delay = 10000;
+  // Смена фона оставляем, это было у тебя
+  const slides = document.querySelectorAll('.bg-slide');
+  let current = 0;
+  const delay = 10000;
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, delay);
 
-    setInterval(() => {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }, delay);
-  </script>
+  // === подхват последней версии лаунчера с GitHub ===
+  (async function() {
+    const btn = document.getElementById('launcher-btn');
+    if (!btn) return;
+
+    // локальный запасной вариант (лежит в твоём репо / на Vercel)
+    const fallbackUrl = 'assets/launcher/FraktumLauncher.exe';
+
+    // если что-то пойдёт не так — пусть качает локальный
+    btn.href = fallbackUrl;
+
+    try {
+      // 👉 если у тебя репо называется иначе — просто поменяй тут
+      const owner = 'sonor71';
+      const repo  = 'fraktum-launcher';
+
+      const resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`);
+      if (!resp.ok) throw new Error('github api not ok');
+
+      const data = await resp.json();
+      // ищем .exe среди ассетов
+      const asset = (data.assets || []).find(a =>
+        a.name && a.name.toLowerCase().endsWith('.exe')
+      );
+
+      if (!asset) {
+        console.warn('В последнем релизе нет .exe, использую локальный файл');
+        return;
+      }
+
+      // если нашли — подменяем ссылку на GitHub
+      btn.href = asset.browser_download_url;
+      btn.removeAttribute('download'); // GitHub сам отдаст файл с именем
+      console.log('launcher linked to', asset.browser_download_url);
+    } catch (err) {
+      console.warn('Не удалось получить последнюю версию с GitHub, используется локальный файл', err);
+      // btn уже указывает на fallbackUrl
+    }
+  })();
+</script>
 </body>
 </html>
