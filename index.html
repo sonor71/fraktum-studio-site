@@ -470,5 +470,43 @@ Fraktum Studio — это не просто команда.
       slides[current].classList.add('active');
     }, delay);
   </script>
+  <script>
+  // === подмена ссылки лаунчера на последнюю версию с GitHub ===
+  (async function() {
+    const btn = document.getElementById('launcher-btn');
+    if (!btn) return;
+
+    // запасной локальный путь (если GitHub не ответит)
+    const fallbackUrl = 'assets/launcher/FraktumLauncher.exe';
+
+    try {
+      // 1. меняешь тут на свой репозиторий с лаунчером
+      const owner = 'sonor71';
+      const repo  = 'fraktum-launcher'; // <-- назови свой репо с лаунчером именно так или поменяй тут
+
+      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`);
+      if (!res.ok) throw new Error('github api error');
+
+      const data = await res.json();
+
+      // ищем среди ассетов .exe
+      const asset = (data.assets || []).find(a => a.name && a.name.toLowerCase().endsWith('.exe'));
+      if (!asset) {
+        console.warn('в последнем релизе нет .exe, использую локальный файл');
+        btn.href = fallbackUrl;
+        btn.removeAttribute('download'); // GitHub сам отдаст файл с именем
+        return;
+      }
+
+      // выставляем ссылку на github-asset
+      btn.href = asset.browser_download_url;
+      btn.removeAttribute('download'); // не нужен, GitHub сам
+      console.log('launcher url set to', asset.browser_download_url);
+    } catch (e) {
+      console.warn('не получилось взять последнюю версию с github, используем локальный файл', e);
+      btn.href = fallbackUrl;
+    }
+  })();
+</script>
 </body>
 </html>
