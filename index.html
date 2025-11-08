@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Fraktum Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --page-width:1100px;
+      --bg: #08111d;
+      --panel: #0d1825;
+      --border: #132133;
+      --text: #e4e9f0;
+      --muted: #a1acbd;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* фон-слайдер — можно оставить, можно удалить */
+    .bg-slideshow{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      overflow:hidden;
+      opacity:0.4;
+    }
+    .bg-slide{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      opacity:0;
+      transition:opacity 1.5s linear;
+    }
+    .bg-slide.active{opacity:1;}
+
+    /* ===== ШАПКА ===== */
+    header{
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+    }
+    .topbar{
+      width: min(var(--page-width), 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 48px;
+      padding: 0 10px;
+    }
+    .logo{
+      width: 26px;
+      height: 26px;
+      background: none;
+      border: 1px solid var(--text);
+      border-radius: 6px;
+    }
+    .title{
+      font-weight: 600;
+    }
+    .spacer{flex:1;}
+    .launcher-btn{
+      background: var(--panel);
+      border: 1px solid var(--text);
+      color: var(--text);
+      padding: 5px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 12px;
+    }
+    .launcher-btn:hover{
+      background: #101e30;
+    }
+    .auth-inline{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .auth-ball{
+      width: 24px;
+      height: 24px;
+      background: var(--text);
+      border-radius: 50%;
+    }
+    .auth-text{
+      font-size: 11px;
+      white-space: nowrap;
+      color: var(--muted);
+    }
+
+    /* ===== ОБЁРТКА ===== */
+    .wrap{
+      width:min(var(--page-width), 100%);
+      margin:0 auto;
+      padding-bottom:60px;
+    }
+    main{padding:16px 0 40px;}
+
+    /* ===== ПАНЕЛИ ===== */
+    .panel{
+      width: calc(100% - 40px);
+      margin: 0 auto 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 16px;
+    }
+    .block-title{
+      margin-bottom:8px;
+      font-size:14px;
+    }
+    .block-inner{
+      border:1px solid var(--border);
+      min-height:90px;
+      background:#0a1420;
+      padding:10px;
+      border-radius: 12px;
+    }
+    .panel a{color:#6fa4ff;}
+
+    /* только для панели с новеллой */
+.panel-novella {
+  /* можно чуть больше отступа снизу */
+  margin-bottom: 18px;
+}
+
+.novella-shots-title {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.novella-shots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  gap: 10px;
+}
+
+.novella-shots .shot {
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;      /* одинаковая форма */
+  background-size: cover;
+  background-position: center;
+}
+.novella-shots .shot:nth-child(1) { background-image: url('assets/screens/sm1.png'); }
+.novella-shots .shot:nth-child(2) { background-image: url('assets/screens/sm2.png'); }
+.novella-shots .shot:nth-child(3) { background-image: url('assets/screens/sm3.png'); }
+.novella-shots .shot:nth-child(4) { background-image: url('assets/screens/sm4.png'); }
+
+    /* ===== РАЗРАБОТЧИКИ ===== */
+.dev-section{
+  width: calc(100% - 40px);
+  margin: 20px auto 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 14px 16px;
+}
+
+.dev-title{
+  text-align:center;
+  font-weight:600;
+  margin-bottom:12px;
+}
+
+.dev-row{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:14px;
+}
+
+.photo{
+  width: 80px;
+  height: 80px;
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  flex:0 0 80px;
+}
+
+.dev-text{
+  flex:1;
+  color: var(--muted);
+}
+
+/* подключаем именно твои файлы */
+.dev-photo-1{
+  background-image: url('assets/devs/dima.png');
+}
+.dev-photo-2{
+  background-image: url('assets/devs/bogdan.png');
+}
+.dev-photo-3{
+  background-image: url('assets/devs/zhenya.png');
+}
+
+/* панель карточной игры */
+.panel-cardgame {
+  margin-bottom: 18px;
+}
+
+.cardgame-shots-title {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cardgame-shots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr)); /* чуть шире */
+  gap: 12px;
+}
+
+.shot-card {
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  /* было aspect-ratio: 4/3; убираем, делаем фикс высоту */
+  height: 230px;                /* Место под высокую карту */
+  background-size: cover;
+  background-position: center;
+}
+
+
+.cardgame-shots .shot-card:nth-child(1) { background-image: url('assets/cards/cg1.png'); }
+.cardgame-shots .shot-card:nth-child(2) { background-image: url('assets/cards/cg2.png'); }
+.cardgame-shots .shot-card:nth-child(3) { background-image: url('assets/cards/cg3.png'); }
+.cardgame-shots .shot-card:nth-child(4) { background-image: url('assets/cards/cg4.png'); }
+
+
+
+    .dev-list{
+      flex:1;
+      padding: 14px 18px 14px 24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .dev-title{
+      text-align:center;
+      font-weight:600;
+      margin-bottom:4px;
+    }
+    .dev-list p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    /* ===== ТЕКСТОВЫЙ БЛОК ===== */
+    .about-panel{
+      width: calc(100% - 40px);
+      margin: 0 auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 16px;
+      line-height: 1.4;
+      white-space: pre-line;
+      color: var(--muted);
+      border-radius: 16px;
+    }
+
+    @media (max-width:720px){
+      .panel,
+      .dev-section,
+      .about-panel{
+        width: calc(100% - 16px);
+      }
+      .dev-section{flex-direction:column;}
+      .dev-photos{
+        width:100%;
+        flex-direction:row;
+        border-right:none;
+        border-bottom:1px solid var(--border);
+      }
+      .photo{flex:1; height:90px;}
+      .dev-list{padding:14px;}
+      .topbar{flex-wrap:wrap; height:auto; padding:4px 10px 6px;}
+      .auth-text{font-size:10px;}
+    }
+    .logo-img{
+  height:26px;        /* подгоняем под высоту шапки */
+  width:auto;
+  display:block;
+}
+header{
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+.topbar{
+  width: min(var(--page-width), 100%);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 48px;
+  padding: 0 10px;
+}
+
+.logo-img{
+  height: 26px;   /* подгоняем под высоту шапки */
+  width: auto;
+  display: block;
+}
+
+.title{
+  font-weight: 600;
+}
+
+.spacer{flex:1;}
+
+
+  </style>
+</head>
+<body>
+  <!-- Фон -->
+  <div class="bg-slideshow">
+    <div class="bg-slide active" style="background-image:url('assets/bg/bg1.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg2.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg3.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg4.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg5.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg6.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg7.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg8.jpg')"></div>
+  </div>
+
+  <!-- Шапка -->
+ <header>
+  <div class="topbar">
+    <img src="assets/logo.png" alt="Fraktum Studio" class="logo-img">
+    <div class="title">Fraktum Studio</div>
+
+    <div class="spacer"></div>
+
+    <button class="launcher-btn">скачать лаунчер</button>
+
+    <div class="auth-inline">
+      <div class="auth-ball" title="войти / зарегистрироваться"></div>
+      <span class="auth-text">войти / зарегистрироваться</span>
+    </div>
+  </div>
+</header>
+
+  <!-- Контент -->
+  <div class="wrap">
+    <main>
+      <!-- Новелла -->
+     <!-- панель новеллы -->
+<div class="panel panel-novella">
+  <div class="block-title">страничка новеллы (ССЫЛКА НА ITCH.IO)</div>
+  <div class="block-inner">
+    <p>
+      <a href="https://nameless-illusion.itch.io/santa-marinagame-nifs" target="_blank" rel="noopener noreferrer">
+        https://nameless-illusion.itch.io/santa-marinagame-nifs
+      </a>
+    </p>
+    <p>Выпуск игры <strong>Santa Marina</strong> от имени <strong>nameless-illusion</strong>.</p>
+  </div>
+
+  <!-- новая часть: 4 кадра из игры -->
+  <div class="novella-shots-title">кадры из игры</div>
+  <div class="novella-shots">
+    <div class="shot"></div>
+    <div class="shot"></div>
+    <div class="shot"></div>
+    <div class="shot"></div>
+  </div>
+</div>
+    <!-- панель карточной игры -->
+<div class="panel panel-cardgame">
+  <div class="block-title">страничка карточной игры</div>
+  <div class="block-inner">
+    <p><strong>Карточная игра — Fraktum.</strong></p>
+    <p>
+      Открывайте паки, выбивайте карты, играйте онлайн с друзьями, делайте ставки на карты,
+      продавайте их на рынке за реальные рубли и выводите деньги себе на карту.
+      Участвуйте в турнирах и рейтинговых матчах, чтобы повышать уровень в игре и лаунчере.
+    </p>
+  </div>
+
+  <div class="cardgame-shots-title">скриншоты / карточки</div>
+  <div class="cardgame-shots">
+    <div class="shot-card"></div>
+    <div class="shot-card"></div>
+    <div class="shot-card"></div>
+    <div class="shot-card"></div>
+  </div>
+</div>
+
+
+      <!-- Разработчики -->
+      <section class="dev-section">
+  <div class="dev-title">разработчики</div>
+
+  <div class="dev-row">
+    <div class="photo dev-photo-1" title="Дима"></div>
+    <div class="dev-text">Дмитрий Бабиков – Разработчик, сценарист, режиссёр игр.</div>
+  </div>
+
+  <div class="dev-row">
+    <div class="photo dev-photo-2" title="Богдан"></div>
+    <div class="dev-text">Богдан Савченко – Сценарист, режиссёр игр.</div>
+  </div>
+
+  <div class="dev-row">
+    <div class="photo dev-photo-3" title="Женя"></div>
+    <div class="dev-text">Евгений Муравьёв – Разработчик игр.</div>
+  </div>
+</section>
+
+
+      <!-- Манифест -->
+      <section class="about-panel">
+Мы не идём лёгкими путями.
+Мы строим то, что переживёт нас самих.
+
+Мы знаем, что время, жизнь и сила — это не бесконечный ресурс.
+Мы тратим его там, где наше отсутствие будет заметно.
+
+Fraktum Studio — это не просто команда.
+Это семья, которую мы выбрали,
+и из которой уже невозможно по-настоящему уйти.
+Это часть каждого из нас,
+это наши ночи за кодом, споры о сюжетах, иногда разочарования и ошибки.
+
+Мы не бесконечные,
+и именно поэтому делаем то, что имеет значение.
+Мы вкладываемся в каждую строчку кода, в каждую карту,
+потому что знаем — что когда-то у нас всё получится.
+
+Мы Fraktum Studio.
+И это только начало.
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // смена фона
+    const slides = document.querySelectorAll('.bg-slide');
+    let current = 0;
+    const delay = 10000;
+
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, delay);
+  </script>
+</body>
+</html>
