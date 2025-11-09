@@ -156,11 +156,37 @@
   background-size: cover;
   background-position: center;
 }
+
 .novella-shots .shot:nth-child(1) { background-image: url('assets/screens/sm1.png'); }
 .novella-shots .shot:nth-child(2) { background-image: url('assets/screens/sm2.png'); }
 .novella-shots .shot:nth-child(3) { background-image: url('assets/screens/sm3.png'); }
 .novella-shots .shot:nth-child(4) { background-image: url('assets/screens/sm4.png'); }
+/* мобильная адаптация для блоков со скринами */
+@media (max-width: 720px) {
 
+  /* панель с новеллой (кадры из игры) */
+  .novella-shots {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .novella-shots .shot {
+    height: 140px;              /* чтобы не сплющивало */
+  }
+
+  /* панель карточной игры */
+  .cardgame-shots {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .shot-card {
+    height: 190px;              /* карты у тебя высокие */
+  }
+
+  /* сами панели можно чуть сузить, если надо */
+  .panel {
+    width: calc(100% - 16px);
+  }
+}
     /* ===== РАЗРАБОТЧИКИ ===== */
 .dev-section{
   width: calc(100% - 40px);
