@@ -217,6 +217,54 @@
   }
 }
 }
+    /* === ПАНЕЛЬ КАРТОЧНОЙ ИГРЫ === */
+.cardgame-shots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* по 4 карты в ряд */
+  gap: 16px;
+  justify-items: center;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* Сами карточки */
+.shot-card {
+  width: 150px;
+  height: 220px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s ease;
+}
+.shot-card:hover {
+  transform: scale(1.05);
+}
+
+/* На телефонах: по 2 карты в ряд, 2 ряда */
+@media (max-width: 720px) {
+  .cardgame-shots {
+    grid-template-columns: repeat(2, 1fr); /* 2 в ряд */
+    gap: 14px;
+  }
+  .shot-card {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    aspect-ratio: 2.5 / 3.5; /* держит пропорции карт */
+  }
+}
+
+/* На очень маленьких (например, 360px) */
+@media (max-width: 420px) {
+  .cardgame-shots {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .shot-card {
+    max-width: 160px;
+  }
+}
+
     /* ===== РАЗРАБОТЧИКИ ===== */
 .dev-section{
   width: calc(100% - 40px);
