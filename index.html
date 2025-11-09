@@ -400,7 +400,61 @@ header{
 
 .spacer{flex:1;}
 
+    /* ======== КАРТОЧНАЯ ПАНЕЛЬ (ФИНАЛЬНАЯ ВЕРСИЯ) ======== */
 
+/* Основной контейнер */
+.cardgame-shots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  justify-items: center;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* Карточки */
+.shot-card {
+  width: 150px;
+  height: 230px;
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.25s ease;
+}
+.shot-card:hover {
+  transform: scale(1.05);
+}
+
+/* === АДАПТАЦИЯ === */
+
+/* На планшетах и телефонах — 2 в ряд (итого 2 ряда × 2 карты) */
+@media (max-width: 720px) {
+  .cardgame-shots {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .shot-card {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    aspect-ratio: 2.5 / 3.5; /* сохраняем форму */
+  }
+}
+
+/* На очень узких (например, 360px) */
+@media (max-width: 420px) {
+  .cardgame-shots {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .shot-card {
+    max-width: 150px;
+  }
+}
   </style>
 </head>
 <body>
