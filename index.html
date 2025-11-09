@@ -173,53 +173,47 @@
     height: 140px;              /* чтобы не сплющивало */
   }
 
-  /* --- Исправление карточной панели для мобильных --- */
+ /* панель карточной игры — пусть растягивается под контент */
+.panel.panel-cardgame {
+  overflow: visible;
+}
+
+/* контейнер с карточками */
 .cardgame-shots {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px;
-  justify-items: center;
-  align-items: start;
-  padding: 10px;
-  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;            /* переносимся на новую строку */
+  gap: 12px;
+  margin-top: 8px;
 }
 
-/* Сами карточки */
-.cardgame-shots img,
+/* сама карточка */
 .shot-card {
-  width: 100%;
-  max-width: 180px;
-  height: auto;
-  border-radius: 12px;
-  object-fit: contain;
-  display: block;
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 150px;               /* базовая ширина */
+  height: 210px;              /* под твои длинные карты */
+  background-size: cover;
+  background-position: center;
+  flex: 0 0 auto;             /* не растягиваться странно */
 }
 
-/* Панель автоматически подстраивается под высоту */
-.cardgame-panel {
-  height: auto !important;
-  min-height: 240px;
-  padding-bottom: 16px;
-}
-
-/* --- Адаптация под мобильные --- */
+/* на телефонах делаем по 2 в ряд */
 @media (max-width: 720px) {
   .cardgame-shots {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    justify-content: space-between;
   }
-  .shot-card img {
-    max-width: 140px;
+  .shot-card {
+    width: calc(50% - 8px);
+    height: 220px;
   }
 }
 
+/* на совсем маленьких — по одной */
 @media (max-width: 420px) {
-  .cardgame-shots {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .shot-card img {
-    max-width: 200px;
+  .shot-card {
+    width: 100%;
+    height: 230px;
   }
 }
 }
