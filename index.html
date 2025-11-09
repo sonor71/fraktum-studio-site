@@ -107,31 +107,8 @@
     }
     main{padding:16px 0 40px;}
 
-    /* ===== ПАНЕЛИ ===== */
-    .panel{
-      width: calc(100% - 40px);
-      margin: 0 auto 16px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 10px;
-      border-radius: 16px;
-    }
-    .block-title{
-      margin-bottom:8px;
-      font-size:14px;
-    }
-    .block-inner{
-      border:1px solid var(--border);
-      min-height:90px;
-      background:#0a1420;
-      padding:10px;
-      border-radius: 12px;
-    }
-    .panel a{color:#6fa4ff;}
-
-    /* только для панели с новеллой */
+/* ===== ПАНЕЛЬ НОВЕЛЛЫ ===== */
 .panel-novella {
-  /* можно чуть больше отступа снизу */
   margin-bottom: 18px;
 }
 
@@ -152,119 +129,80 @@
   background: #0a1420;
   border: 1px solid var(--border);
   border-radius: 10px;
-  aspect-ratio: 4 / 3;      /* одинаковая форма */
+  aspect-ratio: 4 / 3;
   background-size: cover;
   background-position: center;
 }
 
-.novella-shots .shot:nth-child(1) { background-image: url('assets/screens/sm1.png'); }
-.novella-shots .shot:nth-child(2) { background-image: url('assets/screens/sm2.png'); }
-.novella-shots .shot:nth-child(3) { background-image: url('assets/screens/sm3.png'); }
-.novella-shots .shot:nth-child(4) { background-image: url('assets/screens/sm4.png'); }
-/* мобильная адаптация для блоков со скринами */
-@media (max-width: 720px) {
-
-  /* панель с новеллой (кадры из игры) */
-  .novella-shots {
-    grid-template-columns: repeat(2, minmax(120px, 1fr));
-    gap: 10px;
-  }
-  .novella-shots .shot {
-    height: 140px;              /* чтобы не сплющивало */
-  }
-
- /* панель карточной игры — пусть растягивается под контент */
-.panel.panel-cardgame {
-  overflow: visible;
+/* ===== ПАНЕЛЬ КАРТОЧНОЙ ИГРЫ ===== */
+.panel-cardgame {
+  margin-bottom: 18px;
 }
 
-/* контейнер с карточками */
-.cardgame-shots {
-  display: flex;
-  flex-wrap: wrap;            /* переносимся на новую строку */
-  gap: 12px;
-  margin-top: 8px;
+.cardgame-shots-title {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted);
 }
 
-/* сама карточка */
-.shot-card {
-  background: #0a1420;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  width: 150px;               /* базовая ширина */
-  height: 210px;              /* под твои длинные карты */
-  background-size: cover;
-  background-position: center;
-  flex: 0 0 auto;             /* не растягиваться странно */
-}
-
-/* на телефонах делаем по 2 в ряд */
-@media (max-width: 720px) {
-  .cardgame-shots {
-    justify-content: space-between;
-  }
-  .shot-card {
-    width: calc(50% - 8px);
-    height: 220px;
-  }
-}
-
-/* на совсем маленьких — по одной */
-@media (max-width: 420px) {
-  .shot-card {
-    width: 100%;
-    height: 230px;
-  }
-}
-}
-    /* === ПАНЕЛЬ КАРТОЧНОЙ ИГРЫ === */
 .cardgame-shots {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* по 4 карты в ряд */
+  grid-template-columns: repeat(4, 1fr); /* на ПК 4 в ряд */
   gap: 16px;
   justify-items: center;
   padding: 12px;
   box-sizing: border-box;
 }
 
-/* Сами карточки */
 .shot-card {
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
   width: 150px;
-  height: 220px;
-  border-radius: 12px;
+  height: 230px;
   background-size: cover;
   background-position: center;
-  transition: transform 0.2s ease;
-}
-.shot-card:hover {
-  transform: scale(1.05);
 }
 
-/* На телефонах: по 2 карты в ряд, 2 ряда */
+/* подключаем твои картинки карточек */
+.cardgame-shots .shot-card:nth-child(1) { background-image: url('assets/cards/cg1.png'); }
+.cardgame-shots .shot-card:nth-child(2) { background-image: url('assets/cards/cg2.png'); }
+.cardgame-shots .shot-card:nth-child(3) { background-image: url('assets/cards/cg3.png'); }
+.cardgame-shots .shot-card:nth-child(4) { background-image: url('assets/cards/cg4.png'); }
+
+/* ===== АДАПТАЦИЯ ===== */
+
+/* телефоны: 2 ряда по 2 */
 @media (max-width: 720px) {
+  .novella-shots {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+  .novella-shots .shot {
+    height: 140px;
+  }
+
   .cardgame-shots {
-    grid-template-columns: repeat(2, 1fr); /* 2 в ряд */
-    gap: 14px;
+    grid-template-columns: repeat(2, 1fr); /* вот оно: 2×2 */
+    gap: 12px;
   }
   .shot-card {
     width: 100%;
     max-width: 180px;
     height: auto;
-    aspect-ratio: 2.5 / 3.5; /* держит пропорции карт */
+    aspect-ratio: 2.5 / 3.5;
   }
 }
 
-/* На очень маленьких (например, 360px) */
+/* очень узкие */
 @media (max-width: 420px) {
   .cardgame-shots {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
   }
   .shot-card {
     max-width: 160px;
   }
 }
-
     /* ===== РАЗРАБОТЧИКИ ===== */
 .dev-section{
   width: calc(100% - 40px);
