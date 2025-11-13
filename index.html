@@ -5,43 +5,43 @@
   <title>Fraktum Studio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --page-width: 1100px;
+    :root{
+      --page-width:1100px;
       --bg: #08111d;
       --panel: #0d1825;
       --border: #132133;
       --text: #e4e9f0;
       --muted: #a1acbd;
     }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
       font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
     }
 
-    /* ==== Фон ==== */
-    .bg-slideshow {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      opacity: 0.4;
-      overflow: hidden;
+    /* фон-слайдер — можно оставить, можно удалить */
+    .bg-slideshow{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      overflow:hidden;
+      opacity:0.4;
     }
-    .bg-slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1.5s linear;
+    .bg-slide{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      opacity:0;
+      transition:opacity 1.5s linear;
     }
-    .bg-slide.active { opacity: 1; }
+    .bg-slide.active{opacity:1;}
 
-    /* ==== Шапка ==== */
-    header {
+    /* ===== ШАПКА ===== */
+    header{
       background: var(--panel);
       border-bottom: 1px solid var(--border);
       position: sticky;
@@ -50,7 +50,7 @@
       border-bottom-left-radius: 14px;
       border-bottom-right-radius: 14px;
     }
-    .topbar {
+    .topbar{
       width: min(var(--page-width), 100%);
       margin: 0 auto;
       display: flex;
@@ -59,16 +59,18 @@
       height: 48px;
       padding: 0 10px;
     }
-    .logo-img {
+    .logo{
+      width: 26px;
       height: 26px;
-      width: auto;
-      display: block;
+      background: none;
+      border: 1px solid var(--text);
+      border-radius: 6px;
     }
-    .title {
+    .title{
       font-weight: 600;
     }
-    .spacer { flex: 1; }
-    .launcher-btn {
+    .spacer{flex:1;}
+    .launcher-btn{
       background: var(--panel);
       border: 1px solid var(--text);
       color: var(--text);
@@ -77,17 +79,36 @@
       cursor: pointer;
       border-radius: 12px;
     }
-    .launcher-btn:hover { background: #101e30; }
-
-    /* ==== Общая структура ==== */
-    .wrap {
-      width: min(var(--page-width), 100%);
-      margin: 0 auto;
-      padding-bottom: 60px;
+    .launcher-btn:hover{
+      background: #101e30;
     }
-    main { padding: 16px 0 40px; }
+    .auth-inline{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .auth-ball{
+      width: 24px;
+      height: 24px;
+      background: var(--text);
+      border-radius: 50%;
+    }
+    .auth-text{
+      font-size: 11px;
+      white-space: nowrap;
+      color: var(--muted);
+    }
 
-    .panel {
+    /* ===== ОБЁРТКА ===== */
+    .wrap{
+      width:min(var(--page-width), 100%);
+      margin:0 auto;
+      padding-bottom:60px;
+    }
+    main{padding:16px 0 40px;}
+
+    /* ===== ПАНЕЛИ ===== */
+    .panel{
       width: calc(100% - 40px);
       margin: 0 auto 16px;
       background: var(--panel);
@@ -95,115 +116,218 @@
       padding: 10px;
       border-radius: 16px;
     }
-    .block-title {
-      margin-bottom: 8px;
-      font-size: 14px;
+    .block-title{
+      margin-bottom:8px;
+      font-size:14px;
     }
-    .block-inner {
-      border: 1px solid var(--border);
-      min-height: 90px;
-      background: #0a1420;
-      padding: 10px;
+    .block-inner{
+      border:1px solid var(--border);
+      min-height:90px;
+      background:#0a1420;
+      padding:10px;
       border-radius: 12px;
     }
-    .panel a { color: #6fa4ff; }
+    .panel a{color:#6fa4ff;}
 
-    /* ==== Панель новеллы ==== */
-    .panel-novella { margin-bottom: 18px; }
-    .novella-shots-title {
-      margin-top: 10px;
-      margin-bottom: 6px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .novella-shots {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    .novella-shots .shot {
-      background: #0a1420;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      aspect-ratio: 4 / 3;
-      background-size: cover;
-      background-position: center;
-    }
-    .novella-shots .shot:nth-child(1) { background-image: url('assets/screens/sm1.png'); }
-    .novella-shots .shot:nth-child(2) { background-image: url('assets/screens/sm2.png'); }
-    .novella-shots .shot:nth-child(3) { background-image: url('assets/screens/sm3.png'); }
-    .novella-shots .shot:nth-child(4) { background-image: url('assets/screens/sm4.png'); }
+    /* только для панели с новеллой */
+.panel-novella {
+  /* можно чуть больше отступа снизу */
+  margin-bottom: 18px;
+}
 
-    /* ==== Панель карточной игры ==== */
-    .panel-cardgame { margin-bottom: 18px; }
-    .cardgame-shots-title {
-      margin-top: 10px;
-      margin-bottom: 6px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .cardgame-shots {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      justify-items: center;
-      padding: 12px;
-      box-sizing: border-box;
-    }
-    .shot-card {
-      width: 150px;
-      height: 230px;
-      background: #0a1420;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.25s ease;
-    }
-    .shot-card:hover { transform: scale(1.05); }
+.novella-shots-title {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
 
-    .cardgame-shots .shot-card:nth-child(1) { background-image: url('assets/cards/cg1.png'); }
-    .cardgame-shots .shot-card:nth-child(2) { background-image: url('assets/cards/cg2.png'); }
-    .cardgame-shots .shot-card:nth-child(3) { background-image: url('assets/cards/cg3.png'); }
-    .cardgame-shots .shot-card:nth-child(4) { background-image: url('assets/cards/cg4.png'); }
+.novella-shots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  gap: 10px;
+}
 
-    /* ==== Разработчики ==== */
-    .dev-section {
-      width: calc(100% - 40px);
-      margin: 20px auto 16px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px 14px 16px;
-    }
-    .dev-title {
-      text-align: center;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-    .dev-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-    .photo {
-      width: 80px;
-      height: 80px;
-      background: #0a1420;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background-size: cover;
-      background-position: center;
-      flex: 0 0 80px;
-    }
-    .dev-text { flex: 1; color: var(--muted); }
-    .dev-photo-1 { background-image: url('assets/devs/dima.png'); }
-    .dev-photo-2 { background-image: url('assets/devs/bogdan.png'); }
-    .dev-photo-3 { background-image: url('assets/devs/zhenya.png'); }
+.novella-shots .shot {
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;      /* одинаковая форма */
+  background-size: cover;
+  background-position: center;
+}
+.novella-shots .shot:nth-child(1) { background-image: url('assets/screens/sm1.png'); }
+.novella-shots .shot:nth-child(2) { background-image: url('assets/screens/sm2.png'); }
+.novella-shots .shot:nth-child(3) { background-image: url('assets/screens/sm3.png'); }
+.novella-shots .shot:nth-child(4) { background-image: url('assets/screens/sm4.png'); }
+/* мобильная адаптация для блоков со скринами */
+@media (max-width: 720px) {
 
-    /* ==== Манифест ==== */
-    .about-panel {
+  /* панель с новеллой (кадры из игры) */
+  .novella-shots {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .novella-shots .shot {
+    height: 140px;              /* чтобы не сплющивало */
+  }
+
+ /* --- Исправление карточной панели для мобильных --- */
+.cardgame-shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  justify-items: center;
+  align-items: start;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Сами карточки */
+.cardgame-shots img,
+.shot-card {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Панель автоматически подстраивается под высоту */
+.cardgame-panel {
+  height: auto !important;
+  min-height: 240px;
+  padding-bottom: 16px;
+}
+
+/* --- Адаптация под мобильные --- */
+@media (max-width: 720px) {
+  .cardgame-shots {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .shot-card img {
+    max-width: 140px;
+  }
+}
+
+@media (max-width: 420px) {
+  .cardgame-shots {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .shot-card img {
+    max-width: 200px;
+  }
+}
+}
+
+    /* ===== РАЗРАБОТЧИКИ ===== */
+.dev-section{
+  width: calc(100% - 40px);
+  margin: 20px auto 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 14px 16px;
+}
+
+.dev-title{
+  text-align:center;
+  font-weight:600;
+  margin-bottom:12px;
+}
+
+.dev-row{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:14px;
+}
+
+.photo{
+  width: 80px;
+  height: 80px;
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  flex:0 0 80px;
+}
+
+.dev-text{
+  flex:1;
+  color: var(--muted);
+}
+
+/* подключаем именно твои файлы */
+.dev-photo-1{
+  background-image: url('assets/devs/dima.png');
+}
+.dev-photo-2{
+  background-image: url('assets/devs/bogdan.png');
+}
+.dev-photo-3{
+  background-image: url('assets/devs/zhenya.png');
+}
+
+/* панель карточной игры */
+.panel-cardgame {
+  margin-bottom: 18px;
+}
+
+.cardgame-shots-title {
+  margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cardgame-shots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr)); /* чуть шире */
+  gap: 12px;
+}
+
+.shot-card {
+  background: #0a1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  /* было aspect-ratio: 4/3; убираем, делаем фикс высоту */
+  height: 230px;                /* Место под высокую карту */
+  background-size: cover;
+  background-position: center;
+}
+
+
+.cardgame-shots .shot-card:nth-child(1) { background-image: url('assets/cards/cg1.png'); }
+.cardgame-shots .shot-card:nth-child(2) { background-image: url('assets/cards/cg2.png'); }
+.cardgame-shots .shot-card:nth-child(3) { background-image: url('assets/cards/cg3.png'); }
+.cardgame-shots .shot-card:nth-child(4) { background-image: url('assets/cards/cg4.png'); }
+
+
+
+    .dev-list{
+      flex:1;
+      padding: 14px 18px 14px 24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .dev-title{
+      text-align:center;
+      font-weight:600;
+      margin-bottom:4px;
+    }
+    .dev-list p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    /* ===== ТЕКСТОВЫЙ БЛОК ===== */
+    .about-panel{
       width: calc(100% - 40px);
       margin: 0 auto;
       background: var(--panel);
@@ -215,23 +339,107 @@
       border-radius: 16px;
     }
 
-    /* ==== Адаптация ==== */
-    @media (max-width: 720px) {
-      .panel, .dev-section, .about-panel { width: calc(100% - 16px); }
-      .novella-shots { grid-template-columns: repeat(2, 1fr); }
-      .cardgame-shots { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-      .shot-card { width: 100%; max-width: 180px; height: auto; aspect-ratio: 2.5 / 3.5; }
-      .topbar { flex-wrap: wrap; height: auto; padding: 4px 10px 6px; }
+    @media (max-width:720px){
+      .panel,
+      .dev-section,
+      .about-panel{
+        width: calc(100% - 16px);
+      }
+      .dev-section{flex-direction:column;}
+      .dev-photos{
+        width:100%;
+        flex-direction:row;
+        border-right:none;
+        border-bottom:1px solid var(--border);
+      }
+      .photo{flex:1; height:90px;}
+      .dev-list{padding:14px;}
+      .topbar{flex-wrap:wrap; height:auto; padding:4px 10px 6px;}
+      .auth-text{font-size:10px;}
     }
+    .logo-img{
+  height:26px;        /* подгоняем под высоту шапки */
+  width:auto;
+  display:block;
+}
+header{
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
 
-    @media (max-width: 420px) {
-      .cardgame-shots { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .shot-card { max-width: 160px; }
-    }
+.topbar{
+  width: min(var(--page-width), 100%);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 48px;
+  padding: 0 10px;
+}
+
+.logo-img{
+  height: 26px;   /* подгоняем под высоту шапки */
+  width: auto;
+  display: block;
+}
+
+.title{
+  font-weight: 600;
+}
+
+.spacer{flex:1;}
+
+/* ===== ПОДДЕРЖАТЬ РАЗРАБОТЧИКОВ ===== */
+.support-panel{
+  width: calc(100% - 40px);
+  margin: 16px auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.support-text{
+  color: var(--muted);
+  line-height: 1.35;
+}
+.donate-btn{
+  background: var(--panel);
+  border: 1px solid var(--text);
+  color: var(--text);
+  padding: 8px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .15s ease-in-out, transform .05s ease-in-out;
+  white-space: nowrap;
+}
+.donate-btn:hover{ background:#101e30; }
+.donate-btn:active{ transform: translateY(1px); }
+
+/* мобильная адаптация */
+@media (max-width:720px){
+  .support-panel{
+    width: calc(100% - 16px);
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .donate-btn{ align-self: center; }
+}
+
   </style>
 </head>
-
 <body>
+  <!-- Фон -->
   <div class="bg-slideshow">
     <div class="bg-slide active" style="background-image:url('assets/bg/bg1.jpg')"></div>
     <div class="bg-slide" style="background-image:url('assets/bg/bg2.jpg')"></div>
@@ -239,67 +447,100 @@
     <div class="bg-slide" style="background-image:url('assets/bg/bg4.jpg')"></div>
     <div class="bg-slide" style="background-image:url('assets/bg/bg5.jpg')"></div>
     <div class="bg-slide" style="background-image:url('assets/bg/bg6.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg7.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('assets/bg/bg8.jpg')"></div>
   </div>
 
-  <header>
-    <div class="topbar">
-      <img src="assets/logo.png" alt="Fraktum Studio" class="logo-img">
-      <div class="title">Fraktum Studio</div>
-      <div class="spacer"></div>
-      <a id="launcher-btn" class="launcher-btn" href="assets/launcher/FraktumLauncher.exe" download>скачать лаунчер</a>
+  <!-- Шапка -->
+ <header>
+  <div class="topbar">
+    <img src="assets/logo.png" alt="Fraktum Studio" class="logo-img">
+    <div class="title">Fraktum Studio</div>
+
+    <div class="spacer"></div>
+
+    <a id="launcher-btn" class="launcher-btn" href="assets/launcher/FraktumLauncher.exe" download>
+  скачать лаунчер
+</a>
+
+
+    <div class="auth-inline">
+      <div class="auth-ball" title="войти / зарегистрироваться"></div>
+      <span class="auth-text">войти / зарегистрироваться</span>
     </div>
-  </header>
+  </div>
+</header>
 
+  <!-- Контент -->
   <div class="wrap">
+  
     <main>
-      <div class="panel panel-novella">
-        <div class="block-title">страничка новеллы (ССЫЛКА НА ITCH.IO)</div>
-        <div class="block-inner">
-          <p>
-            <a href="https://nameless-illusion.itch.io/santa-marinagame-nifs" target="_blank" rel="noopener noreferrer">
-              https://nameless-illusion.itch.io/santa-marinagame-nifs
-            </a>
-          </p>
-          <p>Выпуск игры <strong>Santa Marina</strong> от имени <strong>nameless-illusion</strong>.</p>
-        </div>
-        <div class="novella-shots-title">кадры из игры</div>
-        <div class="novella-shots">
-          <div class="shot"></div><div class="shot"></div><div class="shot"></div><div class="shot"></div>
-        </div>
-      </div>
+      <!-- Новелла -->
+     <!-- панель новеллы -->
+<div class="panel panel-novella">
+  <div class="block-title">страничка новеллы (ССЫЛКА НА ITCH.IO)</div>
+  <div class="block-inner">
+    <p>
+      <a href="https://nameless-illusion.itch.io/santa-marinagame-nifs" target="_blank" rel="noopener noreferrer">
+        https://nameless-illusion.itch.io/santa-marinagame-nifs
+      </a>
+    </p>
+    <p>Выпуск игры <strong>Santa Marina</strong> от имени <strong>nameless-illusion</strong>.</p>
+  </div>
 
-      <div class="panel panel-cardgame">
-        <div class="block-title">страничка карточной игры</div>
-        <div class="block-inner">
-          <p><strong>Карточная игра — Fraktum.</strong></p>
-          <p>
-            Открывайте паки, выбивайте карты, играйте онлайн с друзьями, делайте ставки на карты,
-            продавайте их на рынке за реальные рубли и выводите деньги себе на карту.
-            Участвуйте в турнирах и рейтинговых матчах, чтобы повышать уровень в игре и лаунчере.
-          </p>
-        </div>
-        <div class="cardgame-shots-title">скриншоты / карточки</div>
-        <div class="cardgame-shots">
-          <div class="shot-card"></div><div class="shot-card"></div><div class="shot-card"></div><div class="shot-card"></div>
-        </div>
-      </div>
+  <!-- новая часть: 4 кадра из игры -->
+  <div class="novella-shots-title">кадры из игры</div>
+  <div class="novella-shots">
+    <div class="shot"></div>
+    <div class="shot"></div>
+    <div class="shot"></div>
+    <div class="shot"></div>
+  </div>
+</div>
+    <!-- панель карточной игры -->
+<div class="panel panel-cardgame">
+  <div class="block-title">страничка карточной игры</div>
+  <div class="block-inner">
+    <p><strong>Карточная игра — Fraktum.</strong></p>
+    <p>
+      Открывайте паки, выбивайте карты, играйте онлайн с друзьями, делайте ставки на карты,
+      продавайте их на рынке за реальные рубли и выводите деньги себе на карту.
+      Участвуйте в турнирах и рейтинговых матчах, чтобы повышать уровень в игре и лаунчере.
+    </p>
+  </div>
 
+  <div class="cardgame-shots-title">скриншоты / карточки</div>
+  <div class="cardgame-shots">
+    <div class="shot-card"></div>
+    <div class="shot-card"></div>
+    <div class="shot-card"></div>
+    <div class="shot-card"></div>
+  </div>
+</div>
+
+
+      <!-- Разработчики -->
       <section class="dev-section">
-        <div class="dev-title">разработчики</div>
-        <div class="dev-row">
-          <div class="photo dev-photo-1" title="Дима"></div>
-          <div class="dev-text">Дмитрий Бабиков – Разработчик, сценарист, режиссёр игр.</div>
-        </div>
-        <div class="dev-row">
-          <div class="photo dev-photo-2" title="Богдан"></div>
-          <div class="dev-text">Богдан Савченко – Сценарист, режиссёр игр.</div>
-        </div>
-        <div class="dev-row">
-          <div class="photo dev-photo-3" title="Женя"></div>
-          <div class="dev-text">Евгений Муравьёв – Разработчик игр.</div>
-        </div>
-      </section>
+  <div class="dev-title">разработчики</div>
 
+  <div class="dev-row">
+    <div class="photo dev-photo-1" title="Дима"></div>
+    <div class="dev-text">Дмитрий Бабиков – Разработчик, сценарист, режиссёр игр.</div>
+  </div>
+
+  <div class="dev-row">
+    <div class="photo dev-photo-2" title="Богдан"></div>
+    <div class="dev-text">Богдан Савченко – Сценарист, режиссёр игр.</div>
+  </div>
+
+  <div class="dev-row">
+    <div class="photo dev-photo-3" title="Женя"></div>
+    <div class="dev-text">Евгений Муравьёв – Разработчик игр.</div>
+  </div>
+</section>
+
+
+      <!-- Манифест -->
       <section class="about-panel">
 Мы не идём лёгкими путями.
 Мы строим то, что переживёт нас самих.
@@ -321,38 +562,70 @@ Fraktum Studio — это не просто команда.
 Мы Fraktum Studio.
 И это только начало.
       </section>
+      <section class="support-panel">
+  <div class="support-text">
+    Если тебе нравится то, что мы делаем, ты можешь поддержать разработку Fraktum Studio.
+    Каждая помощь идёт на разработку игр, серверы и новые фичи.
+  </div>
+  <a class="donate-btn"
+     href="https://www.donationalerts.com/r/entropy_show"
+     target="_blank" rel="noopener noreferrer">
+    Поддержать разработчиков
+  </a>
+</section>
     </main>
   </div>
 
   <script>
-    // Смена фонов
-    const slides = document.querySelectorAll('.bg-slide');
-    let current = 0;
-    setInterval(() => {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }, 10000);
+  // Смена фона оставляем, это было у тебя
+  const slides = document.querySelectorAll('.bg-slide');
+  let current = 0;
+  const delay = 10000;
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, delay);
 
-    // Автоматическая ссылка на последнюю версию лаунчера
-    (async function() {
-      const btn = document.getElementById('launcher-btn');
-      const fallbackUrl = 'assets/launcher/FraktumLauncher.exe';
-      btn.href = fallbackUrl;
+  // === подхват последней версии лаунчера с GitHub ===
+  (async function() {
+    const btn = document.getElementById('launcher-btn');
+    if (!btn) return;
 
-      try {
-        const resp = await fetch('https://api.github.com/repos/sonor71/fraktum-launcher/releases/latest');
-        if (!resp.ok) throw new Error('GitHub API error');
-        const data = await resp.json();
-        const exe = data.assets?.find(a => a.name.endsWith('.exe'));
-        if (exe) {
-          btn.href = exe.browser_download_url;
-          btn.removeAttribute('download');
-        }
-      } catch (err) {
-        console.warn('Используется локальный файл лаунчера', err);
+    // локальный запасной вариант (лежит в твоём репо / на Vercel)
+    const fallbackUrl = 'assets/launcher/FraktumLauncher.exe';
+
+    // если что-то пойдёт не так — пусть качает локальный
+    btn.href = fallbackUrl;
+
+    try {
+      // 👉 если у тебя репо называется иначе — просто поменяй тут
+      const owner = 'sonor71';
+      const repo  = 'fraktum-launcher';
+
+      const resp = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`);
+      if (!resp.ok) throw new Error('github api not ok');
+
+      const data = await resp.json();
+      // ищем .exe среди ассетов
+      const asset = (data.assets || []).find(a =>
+        a.name && a.name.toLowerCase().endsWith('.exe')
+      );
+
+      if (!asset) {
+        console.warn('В последнем релизе нет .exe, использую локальный файл');
+        return;
       }
-    })();
-  </script>
+
+      // если нашли — подменяем ссылку на GitHub
+      btn.href = asset.browser_download_url;
+      btn.removeAttribute('download'); // GitHub сам отдаст файл с именем
+      console.log('launcher linked to', asset.browser_download_url);
+    } catch (err) {
+      console.warn('Не удалось получить последнюю версию с GitHub, используется локальный файл', err);
+      // btn уже указывает на fallbackUrl
+    }
+  })();
+</script>
 </body>
 </html>
